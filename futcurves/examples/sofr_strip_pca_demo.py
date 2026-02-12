@@ -32,7 +32,7 @@ for c_idx, c in enumerate(meta["contract"].tolist()):
         rows.append((d, c, p))
 panel = pd.DataFrame(rows, columns=["ts", "contract", "price"])
 
-roll_policy = RollPolicy(weight_fn="smoothstep", roll_window_bdays=7, roll_end_offset_bdays=2)
+roll_policy = RollPolicy()  # linear blend over exact gap between consecutive expiries
 curve_px, holdings = build_strip_curve(panel, universe, meta, n_positions=n_positions, roll_policy=roll_policy)
 
 rets = curve_px.pct_change().dropna()

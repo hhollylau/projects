@@ -35,11 +35,7 @@ universe = build_rolling_universe(
     offset_bdays=2,
 )
 
-roll_policy = RollPolicy(
-    roll_end_offset_bdays=2,
-    roll_window_bdays=7,
-    weight_fn="smoothstep",  # or linear/logistic
-)
+roll_policy = RollPolicy()  # linear blend over exact gap between consecutive expiries
 
 curve_px, holdings = build_strip_curve(
     panel=panel,
@@ -50,17 +46,20 @@ curve_px, holdings = build_strip_curve(
 )
 ```
 
-## Roll policy and accelerated roll
+## Roll policy
 
-`RollPolicy` defines:
-- roll end: `last_trade_date - roll_end_offset_bdays` (fallback: `expiry - offset`)
-- roll start: `roll_end - roll_window_bdays`
-- blending weight from current to next contract
+`RollPolicy` controls how the strip transitions from one contract to the next:
+
+- **roll end**: `last_trade_date - roll_end_offset_bdays` (fallback: `expiry - offset`)
+- **roll start**: when `roll_window_bdays=None` (default), automatically computed as the calendar-day gap between the front contract expiry and the next contract expiry. This means the blend is always active — matching how a real desk would manage roll exposure. Set `roll_window_bdays` to an integer to use a fixed window instead.
+- **blending weight**: linear interpolation from current to next contract over the roll window
+
+Defaults: `roll_end_offset_bdays=0`, `roll_window_bdays=None` (auto), `weight_fn="linear"`.
 
 Supported weight functions:
-- `smoothstep` (default): accelerated S-curve `3u^2 - 2u^3`
-- `linear`
-- `logistic` (normalized sigmoid, configurable `logistic_k`)
+- `linear` (default): uniform blend
+- `smoothstep`: accelerated S-curve `3u^2 - 2u^3`
+- `logistic`: normalized sigmoid (configurable `logistic_k`)
 
 For tradable strip construction, when front is rolling, blend is applied uniformly across positions so the strip shifts smoothly.
 

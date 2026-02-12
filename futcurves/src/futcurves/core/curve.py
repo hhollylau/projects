@@ -37,7 +37,8 @@ def build_strip_curve(
             _set_empty_day(holdings, d, n_positions)
             continue
 
-        roll_start = roll_policy.roll_start(d, front, meta_v)
+        second = _safe_contract(universe, d, 2)
+        roll_start = roll_policy.roll_start(d, front, meta_v, next_contract=second)
         roll_end = roll_policy.roll_end(d, front, meta_v)
         w_next = roll_policy.weight_next(d, roll_start, roll_end)
         w_cur = 1.0 - w_next

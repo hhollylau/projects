@@ -32,7 +32,7 @@ def test_strip_curve_holdings() -> None:
     )
 
     class FixedRollPolicy(RollPolicy):
-        def roll_start(self, date: pd.Timestamp, front_contract: str, meta: pd.DataFrame) -> pd.Timestamp:
+        def roll_start(self, date: pd.Timestamp, front_contract: str, meta: pd.DataFrame, next_contract: str | None = None) -> pd.Timestamp:
             return pd.Timestamp("2024-01-01")
 
         def roll_end(self, date: pd.Timestamp, front_contract: str, meta: pd.DataFrame) -> pd.Timestamp:
