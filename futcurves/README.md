@@ -80,9 +80,35 @@ orders = position_to_contract_orders(
 
 ## Databento optional quickstart
 
+### Continuous symbology (position-based)
+
 Databento continuous symbology supports patterns such as `ES.v.0` where index is rank by roll rule and `v` indicates a volume-based roll rule; see Databento docs on continuous symbols and symbology.
 
 Example adapter usage is in `examples/databento_quickstart.py` and fetches symbols like `SR3.v.0 ... SR3.v.19` with `stype_in="continuous"`.
+
+### Parent symbology (all active contracts)
+
+`fetch_parent` uses parent symbology (`SR3.FUT`) to fetch **all** active contracts, automatically builds `meta` (with inferred expiry dates) and `panel` DataFrames, and filters to single-leg quarterly contracts.
+
+```python
+from futcurves.sources.databento_source import DatabentoSource
+
+src = DatabentoSource(api_key=key, dataset="GLBX.MDP3")
+
+# Check cost first
+cost = src.estimate_cost("SR3", "2015-01-01", "2026-01-01")
+print(f"Estimated cost: ${cost:.2f}")
+
+# Fetch — optional batch_years splits into smaller API calls
+panel, meta = src.fetch_parent(
+    "SR3",
+    start="2015-01-01",
+    end="2026-01-01",
+    batch_years=2,  # fetch in 2-year chunks (omit for single fetch)
+)
+```
+
+Expiry dates are inferred from the last observed trade date for each contract, which correctly handles decade-wrapping year digits (e.g. SR3H0 = 2030, not 2020).
 
 ## Examples
 - `examples/sofr_strip_pca_demo.py`
