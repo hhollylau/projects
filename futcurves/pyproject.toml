@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling>=1.24.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "futcurves"
+version = "0.1.0"
+description = "Dynamic, tradable futures strip curve construction with holdings maps."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "futcurves" }]
+dependencies = [
+  "numpy>=1.26",
+  "pandas>=2.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "black>=24.0",
+  "ruff>=0.6",
+]
+databento = [
+  "databento>=0.39",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
