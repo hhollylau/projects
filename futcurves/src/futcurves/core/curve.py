@@ -84,7 +84,10 @@ def build_strip_curve(
 
 def _build_price_map(panel: pd.DataFrame, ffill_by_contract: bool) -> pd.DataFrame:
     p = panel.copy()
-    p["date"] = pd.to_datetime(p["ts"]).dt.normalize()
+    ts = pd.to_datetime(p["ts"])
+    if ts.dt.tz is not None:
+        ts = ts.dt.tz_localize(None)
+    p["date"] = ts.dt.normalize()
     p = p.sort_values(["contract", "date"])
     price_map = p.pivot_table(index="date", columns="contract", values="price", aggfunc="last")
     if ffill_by_contract:
