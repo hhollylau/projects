@@ -1,0 +1,1055 @@
+<title>ISEE Vocab Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap">
+<style>
+:root{
+  --ground:#e9edf4; --card:#fffefa; --ink:#1f2d4d; --muted:#5d6a86; --rule:#c7d6ec; --margin:#e07a74;
+  --line:#d3dae6; --chip:#ffffff; --chip-on:#1f2d4d; --chip-on-ink:#ffffff;
+  --know:#2f7d55; --know-bg:#e3f2e9; --learn:#b0582a; --learn-bg:#fbeadf;
+  --t1:#1f2d4d; --t2:#4c6aa3; --t3:#8a94ab; --shadow:0 1px 2px rgba(31,45,77,.08),0 8px 24px rgba(31,45,77,.10);
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --ground:#11151f; --card:#1b2130; --ink:#e7ecf6; --muted:#9aa6bf; --rule:#2a3550; --margin:#8f4a47;
+  --line:#2c3447; --chip:#1b2130; --chip-on:#e7ecf6; --chip-on-ink:#11151f;
+  --know:#7fd1a2; --know-bg:#1c3328; --learn:#f0a77c; --learn-bg:#3a2519;
+  --t1:#e7ecf6; --t2:#93aee0; --t3:#7d879c; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#11151f; --card:#1b2130; --ink:#e7ecf6; --muted:#9aa6bf; --rule:#2a3550; --margin:#8f4a47;
+  --line:#2c3447; --chip:#1b2130; --chip-on:#e7ecf6; --chip-on-ink:#11151f;
+  --know:#7fd1a2; --know-bg:#1c3328; --learn:#f0a77c; --learn-bg:#3a2519;
+  --t1:#e7ecf6; --t2:#93aee0; --t3:#7d879c; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.45;padding:20px 16px 40px}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+h1{font-family:var(--serif);font-weight:700;font-size:28px;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--muted);font-size:13px;margin:2px 0 0}
+.tabs{display:flex;gap:4px;background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:3px}
+.tabs button{border:0;background:none;color:var(--muted);font:inherit;font-weight:700;font-size:13px;padding:6px 14px;border-radius:999px;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-ink)}
+.controls{display:flex;flex-direction:column;gap:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);min-width:52px}
+.chip{border:1px solid var(--line);background:var(--chip);color:var(--ink);font:inherit;font-size:13px;padding:5px 12px;border-radius:999px;cursor:pointer;font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
+.chip small{opacity:.7;margin-left:4px}
+button:focus-visible,input:focus-visible,select:focus-visible,.card:focus-visible{outline:2px solid var(--t2);outline-offset:2px}
+select{font:inherit;font-size:13px;padding:5px 8px;border-radius:8px;border:1px solid var(--line);background:var(--chip);color:var(--ink)}
+
+.progress{display:flex;flex-direction:column;gap:6px}
+.pbar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;display:flex}
+.pbar i{display:block;height:100%}
+.pbar .k{background:var(--know)} .pbar .l{background:var(--learn)}
+.pmeta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;flex-wrap:wrap;gap:8px}
+.pmeta b{color:var(--ink)}
+
+.stage{perspective:1400px}
+.card{position:relative;width:100%;aspect-ratio:5/3;max-width:100%;cursor:pointer;touch-action:none;-webkit-user-select:none;user-select:none;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.3,.7,.3,1);border-radius:6px}
+.card.flipped{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border-radius:6px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:28px 28px 28px 52px;overflow:hidden}
+.face::before{content:"";position:absolute;left:36px;top:0;bottom:0;width:1.5px;background:var(--margin);opacity:.7}
+.back{transform:rotateY(180deg);background-image:repeating-linear-gradient(to bottom,transparent 0 31px,var(--rule) 31px 32px);background-position:0 56px}
+.back::after{content:"";position:absolute;left:0;right:0;top:54px;height:2px;background:var(--margin);opacity:.5}
+.front .word{font-family:var(--serif);font-weight:700;font-size:clamp(30px,7vw,52px);line-height:1.1;letter-spacing:-.01em;overflow-wrap:anywhere}
+.front .def,.back .def{font-family:var(--serif);font-weight:500;font-size:clamp(19px,3.6vw,26px);line-height:1.3;max-width:30ch;text-wrap:balance}
+.back .word{font-family:var(--serif);font-weight:700;font-size:clamp(26px,5.5vw,40px);line-height:1.1}
+.pos{font-style:italic;color:var(--muted);font-family:var(--serif);font-size:16px;margin-top:6px}
+.corner{position:absolute;top:14px;right:16px;display:flex;gap:6px;align-items:center}
+.tier{font-size:11px;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:4px;border:1px solid currentColor}
+.tier.t1{color:var(--t1)} .tier.t2{color:var(--t2)} .tier.t3{color:var(--t3)}
+.status{font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px}
+.status.known{background:var(--know-bg);color:var(--know)} .status.learning{background:var(--learn-bg);color:var(--learn)}
+.hint{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:12px;color:var(--muted)}
+.count{position:absolute;top:14px;left:52px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.actions{display:grid;grid-template-columns:auto 1fr 1fr auto;gap:10px}
+.btn{font:inherit;font-weight:700;font-size:15px;border-radius:10px;border:1px solid var(--line);background:var(--chip);color:var(--ink);padding:12px 14px;cursor:pointer}
+.btn.learn{background:var(--learn-bg);color:var(--learn);border-color:transparent}
+.btn.know{background:var(--know-bg);color:var(--know);border-color:transparent}
+.btn:disabled{opacity:.4;cursor:default}
+.tools{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted)}
+.tools .row{gap:6px}
+.link{border:0;background:none;color:var(--muted);font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:4px}
+kbd{font-family:var(--sans);font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:var(--chip)}
+
+.empty{background:var(--card);border-radius:6px;box-shadow:var(--shadow);padding:40px 24px;text-align:center;color:var(--muted)}
+.empty strong{display:block;font-family:var(--serif);font-size:22px;color:var(--ink);margin-bottom:6px}
+
+.search{width:100%;font:inherit;font-size:15px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--chip);color:var(--ink)}
+.list{background:var(--card);border-radius:6px;box-shadow:var(--shadow);overflow:hidden}
+.item{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:12px 16px;border-bottom:1px solid var(--line);align-items:start}
+.item:last-child{border-bottom:0}
+.item .w{font-family:var(--serif);font-weight:700;font-size:17px}
+.item .w em{font-weight:500;font-style:italic;color:var(--muted);font-size:14px;margin-left:6px}
+.item .d{grid-column:1;color:var(--ink);opacity:.85}
+.item .side{grid-row:1/span 2;grid-column:2;display:flex;gap:6px;align-items:center}
+.mark{border:1px solid var(--line);background:none;color:var(--muted);font:inherit;font-size:12px;font-weight:700;padding:3px 8px;border-radius:6px;cursor:pointer}
+.mark.on.known{background:var(--know-bg);color:var(--know);border-color:transparent}
+.mark.on.learning{background:var(--learn-bg);color:var(--learn);border-color:transparent}
+.listmeta{font-size:13px;color:var(--muted)}
+.confirm{display:flex;gap:8px;align-items:center;font-size:13px}
+
+@media (max-width:520px){
+  .face{padding:26px 18px 30px 40px}
+  .face::before{left:26px}
+  .count{left:40px}
+  .actions{grid-template-columns:1fr 1fr}
+  .actions .nav{order:2}
+  .kbds{display:none}
+  .item{grid-template-columns:1fr}
+  .item .side{grid-row:auto;grid-column:1}
+}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>ISEE Vocab Cards</h1>
+      <p class="sub">Full Vocabulary Reference, pp. 301–309 · <span id="total"></span> words</p>
+    </div>
+    <div class="tabs" role="group" aria-label="View">
+      <button id="tabCards" aria-pressed="true">Cards</button>
+      <button id="tabList" aria-pressed="false">Word list</button>
+    </div>
+  </header>
+
+  <section class="controls" aria-label="Deck filters">
+    <div class="row"><span class="lbl">Deck</span><span class="row" id="deckChips"></span></div>
+    <div class="row"><span class="lbl">Tier</span><span class="row" id="tierChips"></span></div>
+    <div class="row"><span class="lbl">Letters</span>
+      <select id="letters" aria-label="Letter range"></select>
+      <span class="lbl" style="min-width:auto;margin-left:8px">Show</span>
+      <select id="dir" aria-label="Card direction">
+        <option value="wd">Word first</option>
+        <option value="dw">Definition first</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="progress" aria-label="Progress">
+    <div class="pbar"><i class="k" id="pk"></i><i class="l" id="pl"></i></div>
+    <div class="pmeta"><span><b id="nk">0</b> known · <b id="nl">0</b> still learning · <b id="nn">0</b> new</span><span id="deckSize"></span></div>
+  </section>
+
+  <main id="cardsView">
+    <div class="stage" id="stage">
+      <div class="card" id="card" tabindex="0" role="button" aria-label="Flashcard, press to flip">
+        <div class="face front" id="front"></div>
+        <div class="face back" id="back"></div>
+      </div>
+    </div>
+    <div class="empty" id="empty" hidden><strong>No cards here</strong><span id="emptyMsg">Try another deck or tier.</span></div>
+    <div style="height:14px"></div>
+    <div class="actions" id="actions">
+      <button class="btn nav" id="prev" aria-label="Previous card">←</button>
+      <button class="btn learn" id="learnBtn">Still learning</button>
+      <button class="btn know" id="knowBtn">Know it</button>
+      <button class="btn nav" id="next" aria-label="Next card">→</button>
+    </div>
+    <div style="height:10px"></div>
+    <div class="tools">
+      <div class="row">
+        <button class="link" id="shuffle">Shuffle</button>
+        <button class="link" id="alpha">A–Z order</button>
+        <span id="resetWrap"><button class="link" id="reset">Reset progress</button></span>
+      </div>
+      <span class="kbds"><kbd>Space</kbd> flip · <kbd>←</kbd><kbd>→</kbd> move · <kbd>K</kbd> know · <kbd>L</kbd> learning</span>
+    </div>
+  </main>
+
+  <main id="listView" hidden>
+    <input class="search" id="search" type="search" placeholder="Search words or definitions" aria-label="Search words">
+    <div style="height:10px"></div>
+    <p class="listmeta" id="listMeta"></p>
+    <div class="list" id="list"></div>
+  </main>
+</div>
+
+<script>
+const RAW = `abbreviate|v|1|to shorten by cutting parts out
+abhor|v|2|to hate intensely
+able|a|2|having the skill or means to do something
+abridge|v|1|to shorten a text while keeping its main content
+abrupt|a|1|sudden and unexpected, often jarring
+abscond|v|2|to leave secretly to avoid capture or trouble
+absolute|a|1|complete and not limited in any way
+absolution|n|1|formal release from guilt or punishment
+abundant|a|1|existing in large quantity
+accentuate|v|1|to make something stand out or be more noticeable
+acclaim|n|2|strong public praise
+accolades|n|2|awards or expressions of high praise
+achievement|n|1|something accomplished through effort
+actual|a|2|existing in fact, not just in idea
+acuity|n|2|sharpness of thought or perception
+adamant|a|1|unwilling to change one's mind
+adept|a|1|very skilled at something
+adhere|v|2|to stick firmly or follow closely
+admonish|v|1|to warn or scold gently but seriously
+adorn|v|1|to decorate or add beauty to
+adversary|n|1|an opponent in a conflict or contest
+adverse|a|2|working against or unfavorable
+adversity|n|3|a difficult or unfortunate situation
+advocate|v|2|to publicly support a cause or position
+affluence|n|2|an abundance of wealth
+affluent|a|1|having a great deal of money
+affront|n|1|an open, intentional insult
+agenda|n|1|a list of items to address or accomplish
+aghast|a|1|filled with shock and horror
+agile|a|1|able to move quickly and easily
+agitator|n|2|a person who stirs up discontent or protest
+ailment|n|1|a minor illness
+allege|v|2|to claim something without proof
+alleviate|v|1|to make a problem less severe
+aloof|a|1|emotionally distant and uninvolved
+ambiguous|a|1|open to more than one interpretation
+ambivalence|n|1|mixed or conflicting feelings about something
+ameliorate|v|2|to make a bad situation better
+amiable|a|1|pleasant and friendly
+amicable|a|2|characterized by friendliness, especially in disputes
+amity|n|2|a friendly relationship
+ample|a|1|more than enough
+anachronistic|a|2|out of place in time
+anecdote|n|2|a short, often personal story
+animosity|n|1|strong hostility or resentment
+anomalous|a|1|deviating from what is standard
+anonymous|a|1|with name unknown or unidentified
+antagonist|n|1|a person who opposes or is hostile to another
+antagonistic|a|2|openly hostile or opposed
+anthology|n|2|a collection of literary works
+apathetic|a|3|showing no interest or feeling
+appall|v|2|to fill with horror or dismay
+appease|v|1|to calm someone by giving in to demands
+apprentice|n|2|a learner working under a skilled person
+arduous|a|1|requiring great effort
+arid|a|1|extremely dry, especially of land
+arrogant|a|2|having an inflated sense of one's importance
+ascetic|a|2|practicing severe self-discipline, often for religious reasons
+aspersion|n|2|a damaging or insulting remark
+aspire|v|1|to direct one's hopes toward an ambitious goal
+assiduous|a|2|showing careful and persistent effort
+assuage|v|2|to ease an unpleasant feeling
+asylum|n|2|protection given to refugees or the persecuted
+atrocious|a|2|horrifyingly bad or cruel
+atrophy|v|2|to waste away from disuse
+averse|a|2|strongly disliking or opposed to
+barren|a|1|unable to produce growth or offspring
+bastion|n|2|a stronghold or steadfast defender of a cause
+bedevil|v|2|to cause persistent trouble or confusion
+bedlam|n|2|a scene of uproar and confusion
+belligerent|a|2|aggressive and eager to fight
+beneficence|n|2|the quality of being generous and kind
+benign|a|2|gentle and harmless
+bias|n|1|a tendency to favor one side unfairly
+bibliophile|n|2|a lover of books
+bizarre|a|1|very strange or unusual
+blatant|a|1|completely obvious in a bad way
+bliss|n|1|perfect happiness
+blunder|n|2|a careless mistake
+boast|v|1|to talk with too much pride about oneself
+boisterous|a|1|noisy, energetic, and rowdy
+bolster|v|2|to support or strengthen
+boon|n|3|something helpful or beneficial
+boycott|v|1|to refuse to deal with as a protest
+brawny|a|2|physically strong and muscular
+burnish|v|2|to polish until shining
+cadence|n|2|a rhythmic flow of sounds or words
+calamity|n|1|a disastrous event causing great distress
+callous|a|1|showing no concern for others' feelings
+camaraderie|n|2|trust and friendship among a group
+camouflage|v|1|to hide or disguise by blending in with surroundings
+candid|a|1|honest and direct in expression
+capacious|a|2|having a lot of space inside
+caprice|n|2|a sudden change of mind or whim
+careless|a|2|not paying enough attention
+carnivorous|a|2|feeding on meat
+castigate|v|2|to criticize harshly
+cater|v|1|to provide what is needed or wanted
+cautious|a|2|careful to avoid danger
+cavalier|a|2|showing a casual lack of concern
+censure|v|2|to formally criticize or condemn
+certify|v|1|to officially confirm as true
+chronic|a|1|lasting for a long time or constantly recurring
+chronology|n|1|the arrangement of events in time order
+circumvent|v|2|to find a way around an obstacle
+clinch|v|1|to settle decisively
+coddle|v|2|to treat with excessive care
+coerce|v|2|to force someone to do something through pressure
+cognizant|a|3|aware of something
+cohesive|a|1|forming a united whole
+collaborate|v|1|to work together on a project
+colossal|a|1|extremely large
+coma|n|1|a prolonged state of unconsciousness
+comical|a|2|causing laughter
+compassion|n|2|sympathetic concern for others' suffering
+compassionate|a|1|showing concern for others' suffering
+complacent|a|2|self-satisfied and unaware of potential dangers
+compromise|n|2|an agreement reached by mutual concession
+concise|a|1|saying much in few words
+concur|v|1|to agree with someone
+condescending|a|1|acting superior to others
+confection|n|2|a sweet food, often elaborate
+conformist|n|2|one who follows established norms
+confound|v|2|to cause confusion or surprise
+congregation|n|2|a group gathered together, often for worship
+consensus|n|2|general agreement among a group
+consternation|n|2|a feeling of anxiety or dismay
+constituent|n|2|a member of a larger whole
+consume|v|2|to use up or eat completely
+contempt|n|2|the feeling that someone or something is worthless or beneath consideration
+contrite|a|1|sincerely sorry for wrongdoing
+controversial|a|1|causing strong public disagreement
+convergence|n|2|the act of coming together at one point
+convivial|a|2|friendly and lively
+convoluted|a|1|extremely complex and difficult to follow
+copious|a|1|existing in large quantities
+corrosive|a|1|capable of slowly destroying through chemical action
+corruption|n|2|dishonest behavior by those in power
+cower|v|1|to crouch in fear
+craving|n|2|a powerful desire
+credible|a|2|able to be believed
+crucial|a|1|extremely important to a result
+cryptic|a|1|mysterious or hard to understand
+culpable|a|1|deserving blame for wrongdoing
+culprit|n|2|one responsible for a crime or fault
+curriculum|n|2|the subjects taught in a course of study
+cursory|a|2|done quickly without attention to detail
+curvature|n|2|the state of being curved
+custom|n|1|a traditional way of doing things
+dainty|a|2|delicately small and pretty
+dearth|n|1|a serious shortage
+debilitate|v|1|to make weak
+decadence|n|2|moral or cultural decline through indulgence
+decent|a|1|conforming to a standard of propriety or quality
+deceptive|a|2|giving a false impression
+deciduous|a|2|shedding leaves annually
+deduction|n|1|a conclusion reached by reasoning
+deference|n|2|respectful submission to another's wishes
+deficient|a|1|not having enough of something
+deliberate|a|1|done on purpose with careful thought
+demagogue|n|2|a leader who appeals to emotions and prejudices
+demoralize|v|2|to weaken someone's confidence
+denounce|v|2|to publicly condemn
+depict|v|2|to represent in art or words
+depiction|n|1|a representation of something in art or words
+derision|n|2|contemptuous mockery
+desecrate|v|2|to violate the sacredness of
+desist|v|1|to stop doing something
+despondent|a|1|in low spirits from loss of hope
+destitute|a|1|extremely poor and without resources
+desultory|a|2|lacking purpose or consistency
+detain|v|1|to keep someone in official custody or delay them
+deteriorate|v|2|to grow progressively worse
+detest|v|1|to dislike intensely
+detrimental|a|1|tending to cause harm
+devastate|v|3|to destroy or overwhelm
+devious|a|2|showing a skillful use of underhanded tactics
+devour|v|1|to eat hungrily or consume eagerly
+devout|a|2|deeply religious or committed
+dexterous|a|2|skillful with the hands
+dialogue|n|1|conversation between two or more people
+didactic|a|1|intended to teach, often moralistically
+digression|n|2|a temporary departure from a main topic
+diligent|a|2|showing careful and steady effort
+diminish|v|1|to make or become smaller
+discard|v|1|to throw away as no longer useful
+discern|v|2|to perceive or recognize clearly
+discord|n|2|disagreement between people
+discredit|v|2|to harm someone's good reputation
+disdain|n|1|the feeling that someone or something is unworthy of respect
+disparage|v|2|to speak of as having little worth
+disparate|a|1|fundamentally different in kind
+disparity|n|2|a great difference between things
+disperse|v|2|to scatter in different directions
+dispose|v|1|to get rid of something (used with "of"); to arrange or settle
+dissent|n|2|an opinion that differs from the majority
+dissipate|v|2|to disappear or scatter gradually
+dissonance|n|2|lack of harmony or agreement
+distort|v|1|to twist out of true shape or meaning
+distress|n|2|extreme anxiety or pain
+divergent|a|2|developing in different directions
+divisive|a|1|causing disagreement between people
+dogmatic|a|2|asserting opinions as if they were undeniable facts
+dolorous|a|2|feeling or expressing great sorrow
+dormant|a|1|temporarily inactive
+drone|v|2|to make a low continuous humming sound
+dubious|a|1|doubtful or suspicious
+duplicity|n|2|deceitful behavior, especially saying different things to different people
+dwindle|v|2|to gradually decrease in size or amount
+dynamic|a|2|full of energy and constantly changing
+eclectic|a|1|drawing from a variety of sources
+ecstasy|n|2|overwhelming feeling of joy
+effective|a|1|producing the intended result
+effervescent|a|2|lively and enthusiastic
+elation|n|1|great happiness and excitement
+elegy|n|2|a sorrowful poem, often for the dead
+eloquent|a|1|fluent and persuasive in speech
+elucidate|v|2|to make clear by explaining
+elusive|a|1|difficult to catch or define
+embargo|n|1|an official ban on trade
+embezzle|v|1|to steal money entrusted to one's care
+empathy|n|2|the ability to understand others' feelings
+emulate|v|2|to try to match or surpass by imitation
+endear|v|2|to cause to be loved
+endeavor|v|1|to try hard to achieve a goal
+endorse|v|2|to publicly support or approve
+enhance|v|2|to improve the quality or value of
+enigma|n|2|a mysterious or puzzling person or thing
+enmity|n|1|a feeling of active opposition or hostility
+enthusiastic|a|1|showing eager interest
+ephemeral|a|2|lasting only a very short time
+epiphany|n|2|a sudden moment of insight
+epithet|n|2|a descriptive nickname or label
+epitome|n|2|a perfect example of a quality
+equity|n|1|fairness and justice in treatment
+eradicate|v|1|to destroy completely
+erode|v|1|to wear away gradually
+erratic|a|2|not even or regular in pattern
+esoteric|a|1|understood by only a small group with special knowledge
+espouse|v|2|to adopt or support a cause
+esteem|n|2|respect and admiration
+eulogy|n|2|a speech of praise, especially for the dead
+euphonious|a|2|pleasing to the ear
+evict|v|1|to legally force out of a property
+evince|v|2|to reveal the presence of a feeling or quality
+evoke|v|2|to bring a feeling or memory to mind
+exacerbate|v|2|to make a bad situation worse
+exaggerated|a|1|represented as larger or greater than reality
+exasperate|v|1|to irritate intensely
+exasperation|n|2|intense irritation
+excavate|v|2|to dig out, especially to uncover something
+exclude|v|2|to deny entry or participation
+exclusive|a|1|restricted to a select few
+excruciating|a|2|intensely painful
+exemplary|a|2|serving as a desirable model
+exhaustive|a|1|including all possibilities; thorough
+expedient|a|2|convenient and practical, though sometimes improper
+extenuating|a|2|serving to lessen the seriousness of an offense
+extol|v|1|to praise highly
+extract|v|1|to remove or pull out forcefully
+extricate|v|2|to free from a difficulty
+exult|v|1|to feel and show great triumph
+fabricate|v|1|to invent something false
+facile|a|2|done easily, often too easily to be meaningful
+facilitate|v|2|to make easier
+facsimile|n|2|an exact copy
+fallacy|n|1|a mistaken belief based on faulty reasoning
+fallible|a|2|capable of making mistakes
+fallow|a|2|left unplanted or unused for a time
+falter|v|1|to lose strength or hesitate
+fastidious|a|1|very attentive to detail
+fathom|v|2|to understand something complex
+fathomable|a|1|able to be understood
+feeble|a|1|lacking physical or mental strength
+fervent|a|2|showing intense passion
+fiasco|n|1|a complete and humiliating failure
+figurative|a|1|using language symbolically rather than literally
+flagrant|a|2|conspicuously bad or offensive
+flamboyant|a|1|showy and attention-grabbing
+flinch|v|2|to shrink back in pain or fear
+flippant|a|2|not showing proper respect or seriousness
+florid|a|1|excessively elaborate or ornate
+flourish|v|1|to grow or develop successfully
+fluctuate|v|2|to rise and fall irregularly
+fluent|a|2|able to speak or write smoothly
+foresee|v|1|to predict in advance
+formidable|a|1|inspiring fear or respect through size or power
+forthright|a|2|direct and open in manner
+fortitude|n|1|courage in pain or adversity
+fortuitous|a|2|happening by chance rather than design
+fractious|a|2|irritable and likely to cause trouble
+frantic|a|2|wildly excited from anxiety
+fraudulent|a|2|involving deception for unfair gain
+frenetic|a|1|fast and energetic in a wild way
+frivolous|a|1|not having serious purpose or value
+frugal|a|1|careful with money or resources
+frustrate|v|1|to prevent from accomplishing something
+futile|a|1|incapable of producing any result
+garrulous|a|2|excessively talkative
+genesis|n|2|the origin or beginning of something
+genuflect|v|2|to bend the knee in respect or worship
+genuine|a|1|truly what it claims to be
+glee|n|2|great delight
+gloat|v|1|to take pleasure in one's own success or another's failure
+gnostic|a|2|relating to spiritual knowledge
+grapple|v|1|to struggle to deal with something
+greed|n|2|excessive desire for more than one needs
+gregarious|a|1|fond of being with other people
+grovel|v|2|to act in a humiliating way to gain favor
+guerrilla|n|1|a member of an irregular fighting force
+guile|n|2|clever but underhanded behavior
+gullible|a|1|easily fooled into believing something
+gusto|n|2|keen enjoyment in doing something
+hackneyed|a|2|overused and lacking freshness
+haphazard|a|1|lacking any obvious plan
+harass|v|2|to repeatedly trouble or annoy
+heedless|a|2|not paying careful attention
+heretic|n|2|one whose beliefs oppose accepted doctrine
+heritage|n|1|traditions passed down through generations
+hierarchy|n|1|a system ranking people or things by importance
+hinder|v|2|to slow or prevent progress
+holistic|a|2|considering the whole rather than parts
+humility|n|2|a modest view of one's importance
+hybrid|n|1|a thing made by combining two different elements
+hypocrisy|n|1|the practice of claiming beliefs or virtues one does not actually hold
+hypothesis|n|2|a proposed explanation to be tested
+hysterical|a|1|wildly emotional and uncontrolled
+illustrious|a|2|widely known and admired
+immaculate|a|2|perfectly clean or without flaw
+immaterial|a|2|not relevant to the matter at hand
+immune|a|1|protected from a disease or influence
+immutable|a|2|not capable of being changed
+impartial|a|1|treating all sides equally
+impertinent|a|1|rude and disrespectful
+impetuous|a|2|acting quickly without thought
+implacable|a|2|unable to be calmed or appeased
+imprudent|a|1|not showing good judgment
+incandescent|a|2|glowing brightly with heat or passion
+incensed|a|2|very angry
+incentive|n|1|something that motivates action
+incessant|a|2|continuing without pause
+incite|v|1|to stir up or provoke
+incompatible|a|2|unable to exist together harmoniously
+inconsequential|a|2|not important enough to be worth considering
+incorrigible|a|2|not able to be corrected or reformed
+indescribable|a|1|too extreme to be described in words
+indigenous|a|1|native to a particular region
+indolence|n|2|habitual avoidance of effort
+inept|a|1|clumsy or incompetent
+inevitable|a|2|certain to happen
+infamy|n|2|the state of being well-known for a bad reason
+inference|n|1|a conclusion drawn from evidence
+infernal|a|2|relating to hell or extremely unpleasant
+ingenuity|n|2|cleverness in invention or solving problems
+initial|a|1|existing at the beginning
+innate|a|1|existing from birth
+innocuous|a|2|not harmful or offensive
+innovate|v|2|to introduce something new
+insatiable|a|2|impossible to satisfy
+insolent|a|1|disrespectfully rude
+instigate|v|1|to bring about by stirring up
+insurgent|n|2|a person who rises in revolt against authority
+insurrection|n|2|a violent uprising against authority
+integrity|n|2|the quality of being honest and morally upright
+inter|v|3|to bury a dead body
+intercede|v|2|to intervene on someone's behalf
+interminable|a|2|seemingly endless
+intermittent|a|2|occurring at irregular intervals
+intimidate|v|1|to frighten in order to influence
+intrepid|a|2|fearless and adventurous
+intricate|a|1|very complicated in detail
+introspection|n|1|the examination of one's own thoughts
+inundate|v|1|to overwhelm with a great amount
+irate|a|1|very angry
+jeer|v|1|to mock with rude remarks
+jocular|a|1|characterized by joking
+jostle|v|2|to push roughly against in a crowd
+jovial|a|1|cheerful and good-humored
+joyous|a|2|full of happiness
+keen|a|1|sharp in mind or perception
+kinship|n|1|a feeling of being close or connected
+labyrinth|n|1|a confusing network of paths
+lackluster|a|1|lacking energy or brilliance
+laconic|a|1|using very few words
+lament|v|1|to express deep sorrow
+languid|a|1|showing slowness, often pleasantly relaxed
+lavish|a|1|extravagantly generous or abundant
+lenient|a|1|not strict in punishment
+lethargic|a|2|sluggish and lacking energy
+liberate|v|2|to set free
+lichen|n|1|a small crusty organism, part fungus and part alga, that grows on rocks and trees
+limpid|a|2|perfectly clear and transparent
+listless|a|1|lacking energy or enthusiasm
+litigation|n|2|the process of taking legal action
+livid|a|2|extremely angry
+lobbyist|n|1|a person who tries to influence legislators
+lofty|a|1|high in position, ideals, or attitude
+longevity|n|2|long duration of life or existence
+lucid|a|2|easy to understand; clear-minded
+lustrous|a|2|having a soft glow or shine
+magnanimous|a|2|very generous, especially to opponents
+malicious|a|2|intending to do harm
+malignant|a|2|actively evil or harmful
+maneuver|n|1|a skillful or clever move or action
+mannequin|n|2|a dummy used to display clothing
+marina|n|3|a dock for small boats
+mariner|n|3|a sailor
+mediator|n|2|a person who tries to settle disputes
+mediocre|a|1|of only average quality
+medley|n|1|a mixture of different items
+meek|a|2|quiet and easily imposed on
+mendacity|n|2|the tendency to lie
+meticulous|a|1|showing great attention to detail
+minuscule|a|1|extremely small
+miscreant|n|2|a person who behaves badly
+morose|a|2|sullen and ill-tempered
+mosaic|n|1|a picture made from small pieces
+motley|a|1|made up of varied parts that don't match well
+mundane|a|1|lacking interest or excitement; ordinary
+mutation|n|1|a change in form or genetic structure
+naive|a|2|lacking experience or sophistication
+nemesis|n|1|a long-standing rival or source of harm
+neutral|a|1|not taking either side
+nocturnal|a|1|active at night
+nostalgia|n|1|sentimental longing for the past
+novel|a|2|new and original
+nuance|n|1|a subtle difference in meaning
+nuisance|n|1|something annoying or inconvenient
+nullify|v|2|to make legally invalid
+obdurate|a|1|stubbornly refusing to change
+obedience|n|1|compliance with rules or authority
+oblivious|a|3|completely unaware of what is happening
+obsolescent|a|2|becoming outdated
+obsolete|a|1|no longer in use
+obstinate|a|1|stubbornly refusing to change
+obstreperous|a|2|noisy and difficult to control
+obvious|a|2|easily seen or understood
+ominous|a|2|suggesting something bad is coming
+omnipotent|a|2|having unlimited power
+omniscient|a|2|knowing everything
+omnivore|n|1|an animal or person that eats both plants and meat
+omnivorous|a|2|feeding on both plants and animals
+onerous|a|2|involving heavy effort or responsibility
+opaque|a|1|not transparent; hard to understand
+orator|n|2|a skilled public speaker
+ornate|a|1|elaborately decorated
+ostentatious|a|1|showy in a way meant to impress
+outlandish|a|2|strange and unfamiliar
+pacify|v|1|to calm someone who is angry
+palatable|a|2|acceptable in taste or to the mind
+palatial|a|2|resembling a palace in size and grandeur
+pallid|a|2|pale and unhealthy in appearance
+palpable|a|2|so intense it can almost be felt
+palpate|v|1|to examine by touch, especially in medicine
+pandemonium|n|2|wild uproar and confusion
+paradox|n|1|a statement that contradicts itself but may be true
+paramount|a|2|more important than anything else
+paraphernalia|n|2|equipment needed for a particular activity
+paraphrase|v|2|to restate in different words
+parasite|n|1|an organism living off another at its expense
+parole|n|1|the conditional release of a prisoner before a sentence ends
+parsimony|n|2|extreme reluctance to spend
+passion|n|2|strong and barely controllable emotion
+pensive|a|2|engaged in deep, serious thought
+perceptive|a|1|quick to notice or understand
+peripheral|a|2|on the outer edges; less important
+perpetuate|v|1|to cause to continue indefinitely
+persevere|v|1|to keep trying despite difficulty
+personify|v|2|to embody a quality in human form
+perturb|v|2|to make uneasy or anxious
+pervade|v|2|to spread throughout something
+pester|v|1|to annoy with persistent demands
+petite|a|1|small and slender
+philanthropist|n|2|a person who gives generously to good causes
+philosophy|n|2|the study of fundamental questions about life and knowledge
+pilgrimage|n|2|a journey to a sacred place
+pique|v|2|to stimulate interest or arouse irritation
+plateau|n|1|a period of little change after progress
+ponder|v|1|to think deeply about something
+ponderous|a|2|slow and heavy; dull
+portend|v|2|to be a warning sign of
+possible|a|2|able to happen or be done
+posterior|a|2|situated at or toward the back
+posterity|n|2|all future generations
+posthumous|a|2|occurring after a person's death
+potable|a|2|safe to drink
+potent|a|2|having great power or strength
+pragmatic|a|1|focused on practical results
+precaution|n|1|an action taken in advance to avoid harm
+preclude|v|1|to make impossible in advance
+precocious|a|1|showing developed abilities at an unusually early age
+prelude|n|2|an event or piece that comes before another
+premeditated|a|2|planned in advance
+preposterous|a|2|completely contrary to reason
+prescience|n|2|knowledge of events before they happen
+prevalent|a|2|widespread in a particular area or time
+pristine|a|2|in its original, unspoiled condition
+procrastinate|v|2|to delay doing something
+prodigal|a|2|spending money or resources wastefully
+prognosis|n|2|a forecast, especially of disease progression
+proletariat|n|2|the working class
+prolific|a|1|producing in large quantities
+prosaic|a|2|lacking imagination; commonplace
+prose|n|1|ordinary written language without poetic structure
+prosperity|n|2|the state of being successful and wealthy
+prosperous|a|1|successful in material terms
+protagonist|n|1|the main character in a story
+protracted|a|2|lasting longer than expected
+provenance|n|2|the place of origin or earliest known history
+provincial|a|2|narrow-minded; relating to a province
+provocative|a|2|intended to arouse strong reaction
+provoke|v|1|to stir up or anger deliberately
+proximity|n|1|nearness in space or time
+prudent|a|2|showing care and good judgment
+psychiatrist|n|2|a doctor specializing in mental illness
+pulverize|v|1|to crush into fine particles
+quandary|n|1|a state of confusion over what to do
+quarantine|n|1|a period of enforced isolation to prevent the spread of disease
+quarrelsome|a|2|easily provoked into arguments
+query|n|1|a question, often expressing doubt
+quota|n|1|a fixed share or limit
+rampage|n|2|a period of violent, uncontrolled behavior
+rancorous|a|2|filled with bitter resentment
+rapacious|a|2|aggressively greedy
+rapid|a|2|happening at great speed
+raucous|a|2|making harsh, unpleasant noise
+ravenous|a|1|extremely hungry
+recapitulate|v|2|to summarize the main points
+recede|v|1|to move back from a previous position
+reclusive|a|2|avoiding the company of others
+reconciliation|n|2|the restoration of friendly relations
+rectify|v|1|to put right or correct
+recuperate|v|2|to recover from illness or exhaustion
+redolent|a|2|strongly suggestive or reminiscent
+reimburse|v|2|to repay money spent
+reincarnation|n|2|rebirth of a soul in a new body
+rejuvenate|v|2|to restore youth or freshness
+renaissance|n|1|a revival of interest or activity
+renovation|n|2|the act of restoring something to better condition
+repeal|v|1|to officially cancel a law
+replenish|v|1|to fill up again
+repose|n|1|a state of rest or peace
+resilience|n|1|the ability to recover from setbacks
+resolute|a|1|firmly determined
+respective|a|1|belonging separately to each one
+restore|v|1|to return to a former condition
+resurrect|v|1|to bring back to life or use
+retribution|n|2|punishment given for a wrong
+revere|v|1|to feel deep respect for
+rigorous|a|2|extremely thorough and demanding
+risible|a|2|provoking laughter; ridiculous
+roil|v|2|to make turbulent or disturbed
+rouse|v|1|to wake from sleep or stir up
+ruminate|v|2|to think deeply about something
+saccharine|a|2|excessively sweet or sentimental
+sacrifice|n|1|the act of giving up something valuable for a higher purpose
+sagacity|n|2|keen mental judgment
+salubrious|a|2|good for health
+salutation|n|2|a greeting in speech or writing
+sanctuary|n|1|a place of safety or refuge
+satiated|a|2|fully satisfied, especially in appetite
+scarce|a|1|insufficient for demand
+scour|v|2|to clean or search thoroughly
+scrutinize|v|2|to examine carefully and critically
+sedate|a|2|calm and unhurried
+seethe|v|2|to be filled with intense, suppressed anger
+sentient|a|3|capable of feeling and perceiving
+sentimental|a|1|showing tender or nostalgic feelings
+serendipitous|a|2|occurring by happy chance
+serene|a|1|calm and untroubled
+serf|n|2|an agricultural laborer bound to land
+servile|a|2|excessively eager to please
+sever|v|1|to cut off completely
+shirk|v|2|to avoid duty or work
+silhouette|n|1|the dark outline of something against a light background
+simulate|v|1|to imitate the behavior or appearance of
+sinuous|a|2|having many curves
+slovenly|a|2|messy and careless in appearance
+sly|a|1|clever in a deceitful way
+solace|n|2|comfort during a time of distress
+solitary|a|1|existing or living alone
+spectacle|n|1|a visually striking display
+spectator|n|1|a person who watches an event
+spectrum|n|1|a wide range of related qualities
+spontaneity|n|2|the quality of acting on impulse
+spontaneous|a|1|done naturally without planning
+squander|v|2|to waste in a reckless way
+stealthy|a|1|done in a quiet, secretive way
+stereotype|n|1|an oversimplified idea about a group
+stifle|v|1|to prevent or suppress
+strut|v|2|to walk in a proud, showy way
+stupendous|a|2|extremely impressive
+subdue|v|1|to bring under control by force
+submarine|n|3|a vessel that operates underwater
+subsistence|n|2|the minimum needed to stay alive
+substantiate|v|2|to support with evidence
+subterranean|a|2|existing below the earth's surface
+subtle|a|2|not obvious; understated
+succinct|a|2|expressed clearly in few words
+sullen|a|1|silently bad-tempered
+superfluous|a|1|more than needed
+surfeit|n|2|an excessive amount
+surreptitious|a|2|done in a secretive way
+sustenance|n|2|food and drink needed to maintain life
+symbiosis|n|1|a mutually beneficial relationship
+tamper|v|1|to interfere with something improperly
+technique|n|1|a skilled way of doing something
+temper|v|1|to moderate or soften; to make less severe
+tempo|n|1|the speed at which something moves
+tenacious|a|2|holding firm; persistent
+tentative|a|1|not certain or fixed
+terrain|n|3|a stretch of land considered for its features
+terrestrial|a|1|relating to the earth or land
+terse|a|2|brief and to the point, sometimes rudely so
+timid|a|1|showing a lack of courage
+tirade|n|1|a long, angry speech
+torpor|n|2|a state of physical or mental inactivity
+toxic|a|1|containing harmful substances
+trajectory|n|2|the path of a moving object
+tranquil|a|1|free from disturbance
+transient|a|2|lasting only a short time
+transitory|a|1|not permanent
+travail|n|2|painful or laborious effort
+travesty|n|2|a distorted representation of something
+tremulous|a|2|shaking slightly, often from emotion
+trepidation|n|2|a feeling of fear about something to come
+trite|a|2|overused and lacking original thought
+trivial|a|1|of little importance
+tumultuous|a|1|loud and emotionally chaotic
+tundra|n|1|a treeless arctic region
+umbrage|n|2|offense or annoyance taken at something
+unanimous|a|1|fully in agreement
+undaunted|a|2|not discouraged by difficulty
+undermine|v|1|to weaken gradually
+unison|n|1|simultaneous action or speech
+unkempt|a|2|messy and uncared for
+unwittingly|adv|2|without being aware
+vacant|a|1|not occupied or filled
+vaccine|n|1|a substance that produces immunity to a disease
+vertebrate|n|1|an animal with a backbone
+vibrant|a|1|full of energy and life
+vigilant|a|1|keeping careful watch for trouble
+vigor|n|1|physical strength and energy
+vile|a|1|extremely unpleasant or wicked
+visible|a|1|able to be seen
+vitality|n|2|the state of being strong and active
+vitriolic|a|2|filled with bitter criticism
+vivacious|a|2|attractively lively and animated
+vocal|a|1|expressing opinions freely and forcefully
+vogue|n|2|the prevailing fashion at a time
+volatile|a|1|liable to change unpredictably for the worse
+voluble|a|2|speaking fluently and at length
+wane|v|1|to decrease in size, intensity, or importance
+wary|a|1|cautious about possible problems
+witty|a|1|showing quick, inventive humor
+woe|n|1|great sorrow or distress
+wrangle|v|2|to argue noisily or at length
+wrath|n|1|extreme anger
+wretched|a|1|deeply unhappy or in poor condition
+zeal|n|1|great energy and enthusiasm for a cause`;
+
+const POS = {n:"noun", v:"verb", a:"adj.", adv:"adv."};
+const WORDS = RAW.split("\n").map(l => { const [w,p,t,d] = l.split("|"); return {w, p:POS[p], t:+t, d}; });
+const UNITS = {
+  u1: ["parole","incite","obsolete","vaccine","toxic","copious","detest","blatant","nemesis","scarce"],
+  u2: ["sly","distort","exasperate","admonish","florid","vertebrate","nuance","labyrinth","cohesive","meticulous"]
+};
+const RANGES = [["all","All letters"],["a-c","A – C"],["d-f","D – F"],["g-l","G – L"],["m-o","M – O"],["p-r","P – R"],["s-z","S – Z"]];
+
+const KEY = "isee-vocab-v1";
+function load(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify({marks:S.marks, deck:S.deck, tiers:S.tiers, range:S.range, dir:S.dir})); } catch(e){} }
+const saved = load();
+const S = {
+  marks: saved.marks || {},            // word -> "known" | "learning"
+  deck: saved.deck || "all",           // all | u1 | u2 | learning | new
+  tiers: saved.tiers || [1,2,3],
+  range: saved.range || "all",
+  dir: saved.dir || "wd",
+  order: [], i: 0, flipped: false, shuffled: false, view: "cards", q: ""
+};
+
+const $ = id => document.getElementById(id);
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function inRange(w){
+  if (S.range === "all") return true;
+  const [a,b] = S.range.split("-"); const c = w[0];
+  return c >= a && c <= b;
+}
+function baseFiltered(){
+  return WORDS.filter(x => S.tiers.includes(x.t) && inRange(x.w));
+}
+function deckWords(){
+  let list = baseFiltered();
+  if (S.deck === "u1" || S.deck === "u2") { const set = UNITS[S.deck]; list = WORDS.filter(x => set.includes(x.w)); }
+  else if (S.deck === "learning") list = list.filter(x => S.marks[x.w] === "learning");
+  else if (S.deck === "new") list = list.filter(x => !S.marks[x.w]);
+  return list;
+}
+function rebuild(keepWord){
+  const list = deckWords();
+  S.order = list.slice();
+  if (S.shuffled) shuffleArr(S.order);
+  S.i = 0;
+  if (keepWord){ const j = S.order.findIndex(x => x.w === keepWord); if (j >= 0) S.i = j; }
+  S.flipped = false;
+  render();
+}
+function shuffleArr(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } }
+
+function chips(){
+  const base = baseFiltered();
+  const cnt = {
+    all: base.length, u1: 10, u2: 10,
+    learning: base.filter(x => S.marks[x.w]==="learning").length,
+    new: base.filter(x => !S.marks[x.w]).length
+  };
+  const decks = [["all","All words"],["new","Not yet marked"],["learning","Still learning"],["u1","Unit 1"],["u2","Unit 2"]];
+  $("deckChips").innerHTML = decks.map(([k,l]) =>
+    `<button class="chip" data-deck="${k}" aria-pressed="${S.deck===k}">${l}<small>${cnt[k]}</small></button>`).join("");
+  const tierCount = t => WORDS.filter(x => x.t===t && inRange(x.w)).length;
+  $("tierChips").innerHTML = [1,2,3].map(t =>
+    `<button class="chip" data-tier="${t}" aria-pressed="${S.tiers.includes(t)}">T${t}<small>${tierCount(t)}</small></button>`).join("")
+    + `<span class="sub" style="margin:0 0 0 4px">T1 = covered in the workbook</span>`;
+  const unit = S.deck==="u1"||S.deck==="u2";
+  $("tierChips").style.opacity = unit ? .45 : 1;
+  $("letters").disabled = unit;
+}
+
+function progress(){
+  const list = S.view === "cards" ? S.order : deckWords();
+  const n = list.length;
+  const k = list.filter(x => S.marks[x.w]==="known").length;
+  const l = list.filter(x => S.marks[x.w]==="learning").length;
+  $("nk").textContent = k; $("nl").textContent = l; $("nn").textContent = n-k-l;
+  $("pk").style.width = n ? (k/n*100)+"%" : 0;
+  $("pl").style.width = n ? (l/n*100)+"%" : 0;
+  $("deckSize").textContent = `${n} card${n===1?"":"s"} in this deck`;
+}
+
+function tierTag(t){ return `<span class="tier t${t}">T${t}</span>`; }
+function statusTag(w){
+  const m = S.marks[w]; if (!m) return "";
+  return `<span class="status ${m}">${m==="known"?"Known":"Learning"}</span>`;
+}
+
+function renderCard(){
+  const has = S.order.length > 0;
+  $("stage").hidden = !has; $("empty").hidden = has;
+  ["prev","next","learnBtn","knowBtn"].forEach(id => $(id).disabled = !has);
+  if (!has){
+    $("emptyMsg").textContent = S.deck==="learning" ? "Nothing marked “Still learning” in this selection yet."
+      : S.deck==="new" ? "Every card in this selection has been marked. Nice work." : "Try another deck, tier or letter range.";
+    return;
+  }
+  const x = S.order[S.i];
+  const corner = `<div class="corner">${statusTag(x.w)}${tierTag(x.t)}</div>`;
+  const count = `<div class="count">${S.i+1} / ${S.order.length}</div>`;
+  const wordBlock = `<div class="word">${esc(x.w)}</div><div class="pos">${x.p}</div>`;
+  const defBlock = `<div class="def">${esc(x.d)}</div>`;
+  if (S.dir === "wd"){
+    $("front").innerHTML = count + corner + wordBlock + `<div class="hint">Tap or swipe up to flip · swipe sideways for next</div>`;
+    $("back").innerHTML = count + corner + `<div class="word" style="font-size:clamp(22px,4.5vw,30px);margin-bottom:14px">${esc(x.w)} <span class="pos">${x.p}</span></div>` + defBlock;
+  } else {
+    $("front").innerHTML = count + corner + `<div class="pos" style="margin:0 0 10px">${x.p}</div>` + defBlock + `<div class="hint">Tap or swipe up to flip · swipe sideways for next</div>`;
+    $("back").innerHTML = count + corner + wordBlock + `<div class="def" style="font-size:17px;margin-top:14px;opacity:.8">${esc(x.d)}</div>`;
+  }
+  $("card").classList.toggle("flipped", S.flipped);
+  $("card").setAttribute("aria-label", S.flipped ? "Card back, press to flip" : "Card front, press to flip");
+}
+
+function renderList(){
+  const q = S.q.trim().toLowerCase();
+  let list = deckWords();
+  if (q) list = list.filter(x => x.w.includes(q) || x.d.toLowerCase().includes(q));
+  $("listMeta").textContent = `${list.length} word${list.length===1?"":"s"}` + (q ? ` matching “${S.q.trim()}”` : "");
+  $("list").innerHTML = list.length ? list.map(x => {
+    const m = S.marks[x.w];
+    return `<div class="item"><div class="w">${esc(x.w)}<em>${x.p}</em></div>
+      <div class="side">${tierTag(x.t)}
+        <button class="mark ${m==="learning"?"on learning":""}" data-w="${x.w}" data-m="learning" aria-pressed="${m==="learning"}">Learning</button>
+        <button class="mark ${m==="known"?"on known":""}" data-w="${x.w}" data-m="known" aria-pressed="${m==="known"}">Known</button></div>
+      <div class="d">${esc(x.d)}</div></div>`;
+  }).join("") : `<div class="item"><div class="d">No words match.</div></div>`;
+}
+
+function render(){
+  chips(); progress();
+  $("letters").value = S.range; $("dir").value = S.dir;
+  $("cardsView").hidden = S.view !== "cards"; $("listView").hidden = S.view !== "list";
+  $("tabCards").setAttribute("aria-pressed", S.view==="cards");
+  $("tabList").setAttribute("aria-pressed", S.view==="list");
+  $("shuffle").style.fontWeight = S.shuffled ? 700 : 400;
+  $("alpha").style.fontWeight = S.shuffled ? 400 : 700;
+  if (S.view === "cards") renderCard(); else renderList();
+}
+
+function flip(){ if (!S.order.length) return; S.flipped = !S.flipped; renderCard(); }
+function go(d){
+  if (!S.order.length) return;
+  S.i = (S.i + d + S.order.length) % S.order.length; S.flipped = false; render();
+}
+function mark(m){
+  if (!S.order.length) return;
+  const x = S.order[S.i];
+  S.marks[x.w] = m; save();
+  // In filtered review decks, a marked card leaves the deck
+  if ((S.deck==="new") || (S.deck==="learning" && m==="known")){
+    S.order.splice(S.i,1);
+    if (S.i >= S.order.length) S.i = 0;
+    S.flipped = false; render();
+  } else go(1);
+}
+
+$("letters").innerHTML = RANGES.map(([v,l]) => `<option value="${v}">${l}</option>`).join("");
+$("total").textContent = WORDS.length;
+
+$("deckChips").addEventListener("click", e => { const b = e.target.closest("[data-deck]"); if (!b) return; S.deck = b.dataset.deck; save(); rebuild(); });
+$("tierChips").addEventListener("click", e => {
+  const b = e.target.closest("[data-tier]"); if (!b) return; const t = +b.dataset.tier;
+  if (S.tiers.includes(t)) { if (S.tiers.length > 1) S.tiers = S.tiers.filter(x => x!==t); }
+  else S.tiers = [...S.tiers, t].sort();
+  save(); rebuild();
+});
+$("letters").addEventListener("change", e => { S.range = e.target.value; save(); rebuild(); });
+$("dir").addEventListener("change", e => { S.dir = e.target.value; S.flipped = false; save(); render(); });
+$("card").addEventListener("click", flip);
+$("prev").addEventListener("click", () => go(-1));
+$("next").addEventListener("click", () => go(1));
+$("knowBtn").addEventListener("click", () => mark("known"));
+$("learnBtn").addEventListener("click", () => mark("learning"));
+$("shuffle").addEventListener("click", () => { S.shuffled = true; rebuild(); });
+$("alpha").addEventListener("click", () => { S.shuffled = false; rebuild(S.order[S.i] && S.order[S.i].w); });
+$("tabCards").addEventListener("click", () => { S.view = "cards"; rebuild(); });
+$("tabList").addEventListener("click", () => { S.view = "list"; render(); });
+$("search").addEventListener("input", e => { S.q = e.target.value; renderList(); });
+$("list").addEventListener("click", e => {
+  const b = e.target.closest(".mark"); if (!b) return;
+  const w = b.dataset.w, m = b.dataset.m;
+  if (S.marks[w] === m) delete S.marks[w]; else S.marks[w] = m;
+  save(); chips(); progress(); renderList();
+});
+function resetUI(){
+  $("resetWrap").innerHTML = `<button class="link" id="reset">Reset progress</button>`;
+  $("reset").addEventListener("click", () => {
+    $("resetWrap").innerHTML = `<span class="confirm">Clear all marks? <button class="link" id="yes">Yes, clear</button><button class="link" id="no">Cancel</button></span>`;
+    $("yes").addEventListener("click", () => { S.marks = {}; save(); resetUI(); rebuild(); });
+    $("no").addEventListener("click", resetUI);
+  });
+}
+resetUI();
+
+document.addEventListener("keydown", e => {
+  if (S.view !== "cards" || e.target.matches("input,select,textarea")) return;
+  if (e.key === " " || e.key === "Enter"){ if (e.target.closest("button") && e.target.id!=="card") return; e.preventDefault(); flip(); }
+  else if (e.key === "ArrowRight") go(1);
+  else if (e.key === "ArrowLeft") go(-1);
+  else if (e.key.toLowerCase() === "k") mark("known");
+  else if (e.key.toLowerCase() === "l") mark("learning");
+});
+
+// swipe on touch screens
+// swipe: left/right moves between cards, up/down flips the card
+let sx = null, sy = null;
+$("card").addEventListener("touchstart", e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, {passive:true});
+$("card").addEventListener("touchend", e => {
+  if (sx === null) return;
+  const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+  sx = sy = null;
+  const ax = Math.abs(dx), ay = Math.abs(dy);
+  if (Math.max(ax, ay) < 40) return;          // a tap; the click handler flips
+  e.preventDefault();                          // stop the tap-flip after a swipe
+  if (ax > ay) go(dx < 0 ? 1 : -1);
+  else flip();
+});
+
+rebuild();
+</script>
