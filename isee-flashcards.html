@@ -1,3 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Vocab Cards">
+<meta name="theme-color" content="#e9edf4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#11151f" media="(prefers-color-scheme: dark)">
 <title>ISEE Vocab Cards</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap">
@@ -42,6 +52,12 @@ h1{font-family:var(--serif);font-weight:700;font-size:28px;margin:0;letter-spaci
 button:focus-visible,input:focus-visible,select:focus-visible,.card:focus-visible{outline:2px solid var(--t2);outline-offset:2px}
 select{font:inherit;font-size:13px;padding:5px 8px;border-radius:8px;border:1px solid var(--line);background:var(--chip);color:var(--ink)}
 
+.filters summary{cursor:pointer;list-style:none;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted);padding:6px 0}
+.filters summary::-webkit-details-marker{display:none}
+.filters summary::after{content:"▾";margin-left:auto;font-size:12px}
+.filters[open] summary::after{content:"▴"}
+.filters[open] summary #filterSummary{display:none}
+.filters .controls{padding-top:6px}
 .progress{display:flex;flex-direction:column;gap:6px}
 .pbar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;display:flex}
 .pbar i{display:block;height:100%}
@@ -108,6 +124,13 @@ kbd{font-family:var(--sans);font-size:11px;border:1px solid var(--line);border-b
 }
 @media (prefers-reduced-motion:reduce){.card{transition:none}}
 </style>
+<style>
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;padding-top:calc(20px + env(safe-area-inset-top,0px));padding-bottom:calc(40px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
 
 <div class="wrap">
   <header>
@@ -121,6 +144,8 @@ kbd{font-family:var(--sans);font-size:11px;border:1px solid var(--line);border-b
     </div>
   </header>
 
+  <details class="filters" id="filters" open>
+  <summary><span class="lbl" style="min-width:auto">Deck &amp; filters</span> <span id="filterSummary"></span></summary>
   <section class="controls" aria-label="Deck filters">
     <div class="row"><span class="lbl">Deck</span><span class="row" id="deckChips"></span></div>
     <div class="row"><span class="lbl">Tier</span><span class="row" id="tierChips"></span></div>
@@ -133,6 +158,7 @@ kbd{font-family:var(--sans);font-size:11px;border:1px solid var(--line);border-b
       </select>
     </div>
   </section>
+  </details>
 
   <section class="progress" aria-label="Progress">
     <div class="pbar"><i class="k" id="pk"></i><i class="l" id="pl"></i></div>
@@ -901,6 +927,9 @@ function chips(){
     + `<span class="sub" style="margin:0 0 0 4px">T1 = covered in the workbook</span>`;
   const unit = S.deck==="u1"||S.deck==="u2";
   $("tierChips").style.opacity = unit ? .45 : 1;
+  const dn = Object.fromEntries(decks)[S.deck];
+  const rn = Object.fromEntries(RANGES)[S.range];
+  $("filterSummary").textContent = unit ? dn : `${dn} · ${S.tiers.map(t=>"T"+t).join(", ")} · ${rn}`;
   $("letters").disabled = unit;
 }
 
@@ -991,6 +1020,8 @@ function mark(m){
 
 $("letters").innerHTML = RANGES.map(([v,l]) => `<option value="${v}">${l}</option>`).join("");
 $("total").textContent = WORDS.length;
+// On phones, start with filters folded so the card is on screen
+if (window.matchMedia("(max-width:520px)").matches) $("filters").open = false;
 
 $("deckChips").addEventListener("click", e => { const b = e.target.closest("[data-deck]"); if (!b) return; S.deck = b.dataset.deck; save(); rebuild(); });
 $("tierChips").addEventListener("click", e => {
@@ -1053,3 +1084,5 @@ $("card").addEventListener("touchend", e => {
 
 rebuild();
 </script>
+</body>
+</html>
